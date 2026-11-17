@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>定位控制台 · 测试用例</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="logo">◉</span>
+    <div>
+      <h1>定位控制台</h1>
+      <p class="sub">自然语言测试用例 · 步骤按需添加 · xpath 每步可选<span id="model-tag" class="tag"></span></p>
+    </div>
+  </div>
+  <div class="urlbar">
+    <input id="url" type="text" spellcheck="false" placeholder="https://…">
+    <button id="btn-go" class="btn">打开</button>
+  </div>
+</header>
+
+<main>
+  <!-- 左：用例编辑 + 执行 -->
+  <section class="pane left">
+    <div class="screenshot-box">
+      <img id="shot" alt="页面实时截图" title="点击刷新">
+      <span class="shot-hint" id="shot-hint">加载中…</span>
+    </div>
+
+    <div class="case-panel">
+      <div class="case-head">
+        <input id="case-title" type="text" placeholder="用例标题（例如：验证新增待办）" spellcheck="false">
+        <input id="case-group" type="text" placeholder="分组（可选）" spellcheck="false">
+        <div class="case-actions">
+          <button id="btn-run-case" class="btn primary">运行用例 ▶</button>
+          <button id="btn-add-step" class="btn">＋ 步骤</button>
+          <button id="btn-save-case" class="btn ghost">保存</button>
+          <button id="btn-save-semantic" class="btn ghost" title="把当前步骤组合保存为可复用的业务语义">⚡ 存为语义</button>
+        </div>
+      </div>
+      <div id="steps" class="steps"></div>
+      <details class="case-params">
+        <summary>用例参数（步骤里用 <code>${参数名}</code>；取值填 <code>1|2</code> 表示数据驱动，逐值执行多轮）</summary>
+        <div id="param-rows" class="param-rows"></div>
+        <button id="btn-add-param" class="btn ghost small">＋ 参数</button>
+      </details>
+      <p class="hint">步骤按需添加；xpath 每步可选（留空 = 后台三层链路自动解析：缓存 → AI 视觉）；断言步骤不使用 xpath；步骤支持 <code>${参数名}</code> 占位，在「用例参数」里赋值；语义步骤的参数在步骤行内直接填写。</p>
+    </div>
+
+    <div class="feed-head"><h2>执行结果</h2><span class="legend">
+      <span class="badge t1">Tier1 xpath</span>
+      <span class="badge t2">Tier2 缓存</span>
+      <span class="badge t3">Tier3 AI</span>
+    </span></div>
+    <div id="feed" class="feed"><p class="empty">尚无执行结果 —— 编辑用例后点「运行用例」。</p></div>
+  </section>
+
+  <!-- 右：已保存用例（分组 + 勾选批量回归） -->
+  <aside class="pane right">
+    <div class="panel-head">
+      <h2>已保存用例</h2>
+      <button id="btn-cases-refresh" class="btn ghost" title="刷新">⟳</button>
+    </div>
+    <div class="run-bar">
+      <label class="sel-count"><input type="checkbox" id="sel-all"> 全选</label>
+      <span id="sel-info">未选择</span>
+      <button id="btn-run-selected" class="btn primary small">▶ 回归选中</button>
+    </div>
+    <div id="case-groups" class="case-groups"><p class="empty">加载中…</p></div>
+    <div class="panel-head sem-head">
+      <h2>业务语义</h2>
+      <button id="btn-sem-refresh" class="btn ghost" title="刷新">⟳</button>
+    </div>
+    <div id="sem-list" class="sem-list"></div>
+    <p class="hint">业务语义 = 多步骤组合的可复用单元（⏩ 右侧可直接运行）；步骤里用 <code>${参数名}</code> 占位（也兼容 <code>${{ENV}}</code> 环境变量），调用时在步骤行内传值。语义保存于 console/semantics/。</p>
+  </aside>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

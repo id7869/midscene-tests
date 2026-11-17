@@ -1,0 +1,7 @@
+node_modules/
+.env
+midscene_run/
+.midscene/
+
+# 定位控制台的运行产物与临时文件
+console/semantics/*.tmp.json
